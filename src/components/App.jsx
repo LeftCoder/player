@@ -1,5 +1,4 @@
 import Player from './Player'
-
 const path = 'videos/'
 
 const parseExtension = (filename) => {

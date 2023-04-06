@@ -1,37 +1,34 @@
 import videojs from 'video.js';
-import videojsPlaylistPlugin from 'videojs-playlist';
 import 'video.js/dist/video-js.css';
+import videojsPlaylistPlugin from 'videojs-playlist';
 import { useRef, useEffect } from 'preact/hooks';
 
 videojs.registerPlugin('playlist', videojsPlaylistPlugin);
 
-const Player = ({options, playlist}) => {
+const Player = ({options, playlist, onReady}) => {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
 
   useEffect(() => {
     if (!playerRef.current) {
-      // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode. 
       const videoElement = document.createElement("video-js");
 
       videoElement.classList.add('vjs-big-play-centered');
       videoRef.current.appendChild(videoElement);
 
       const player = playerRef.current = videojs(videoElement, options, () => {
+        playerRef.current = player;
+    
         player.playlist(playlist);
         player.playlist.autoadvance(0);
-        player.play();
         player.playlist.repeat(true)
       });
 
-    // You could update an existing player in the `else` block here
-    // on prop change, for example:
     } else {
       const player = playerRef.current;
-
+      
       player.playlist(playlist);
       player.playlist.autoadvance(0);
-      player.play();
       player.playlist.repeat(true)
     }
   }, [options, videoRef]);
