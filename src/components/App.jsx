@@ -21,16 +21,9 @@ const makeSources = (files) => {
 const App = ({files}) => {
   const playlist = makeSources(files)
 
-  const options = {
-    autoplay: true,
-    controls: false,
-    responsive: true,
-    fluid: true
-  };
-
   return (
     <>
-      <Player options={options} playlist={playlist} />
+      <Player playlist={playlist} />
     </>
   );
 }

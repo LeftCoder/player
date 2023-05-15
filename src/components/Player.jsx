@@ -5,9 +5,25 @@ import { useRef, useEffect } from 'preact/hooks';
 
 videojs.registerPlugin('playlist', videojsPlaylistPlugin);
 
-const Player = ({options, playlist, onReady}) => {
+const Player = ({playlist}) => {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
+
+  const options = {
+    controls: false,
+    responsive: true,
+    fluid: true
+  };
+
+  const start = (player, playlist) => {
+    player.playlist(playlist);
+    player.playlist.autoadvance(0)
+    player.playlist.repeat(true)
+    
+    player.ready(() => {
+      player.play()
+    })
+  }
 
   useEffect(() => {
     if (!playerRef.current) {
@@ -16,24 +32,13 @@ const Player = ({options, playlist, onReady}) => {
       videoElement.classList.add('vjs-big-play-centered');
       videoRef.current.appendChild(videoElement);
 
-      const player = playerRef.current = videojs(videoElement, options, () => {
-        playerRef.current = player;
-    
-        player.playlist(playlist);
-        player.playlist.autoadvance(0);
-        player.playlist.repeat(true)
-      });
+      const player = videojs(videoElement, options);
+      playerRef.current = player
+    }     
 
-    } else {
-      const player = playerRef.current;
-      
-      player.playlist(playlist);
-      player.playlist.autoadvance(0);
-      player.playlist.repeat(true)
-    }
+    start(playerRef.current, playlist)
   }, [options, videoRef]);
 
-  // Dispose the Video.js player when the functional component unmounts
   useEffect(() => {
     const player = playerRef.current;
 
