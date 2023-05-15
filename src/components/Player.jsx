@@ -1,18 +1,16 @@
-import videojs from 'video.js';
-import 'video.js/dist/video-js.css';
-import videojsPlaylistPlugin from 'videojs-playlist';
-import { useRef, useEffect } from 'preact/hooks';
+import videojs from 'video.js'
+import 'video.js/dist/video-js.css'
+import videojsPlaylistPlugin from 'videojs-playlist'
+import { useRef, useEffect } from 'preact/hooks'
 
-videojs.registerPlugin('playlist', videojsPlaylistPlugin);
+videojs.registerPlugin('playlist', videojsPlaylistPlugin)
 
 const Player = ({playlist}) => {
-  const videoRef = useRef(null);
-  const playerRef = useRef(null);
+  const videoRef = useRef(null)
+  const playerRef = useRef(null)
 
   const options = {
-    controls: false,
-    responsive: true,
-    fluid: true
+    controls: false
   };
 
   const start = (player, playlist) => {
@@ -27,28 +25,26 @@ const Player = ({playlist}) => {
 
   useEffect(() => {
     if (!playerRef.current) {
-      const videoElement = document.createElement("video-js");
+      const videoElement = document.createElement("video-js")
+      videoElement.classList.add('w-full', 'h-screen')
+      videoRef.current.appendChild(videoElement)
 
-      videoElement.classList.add('vjs-big-play-centered');
-      videoRef.current.appendChild(videoElement);
-
-      const player = videojs(videoElement, options);
-      playerRef.current = player
+      playerRef.current = videojs(videoElement, options)
     }     
 
     start(playerRef.current, playlist)
-  }, [options, videoRef]);
+  }, [options, videoRef])
 
   useEffect(() => {
-    const player = playerRef.current;
+    const player = playerRef.current
 
     return () => {
       if (player && !player.isDisposed()) {
-        player.dispose();
-        playerRef.current = null;
+        player.dispose()
+        playerRef.current = null
       }
     };
-  }, [playerRef]);
+  }, [playerRef])
 
   return (
     <div data-vjs-player>
