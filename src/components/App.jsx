@@ -6,14 +6,12 @@ const parseExtension = (filename) => {
 }
 
 const makeSources = (files) => {
-  const sources = files.map(file => (
-    {
-      sources: [{
-        src: path + file,
-        type: 'video/' + parseExtension(file)
-      }]
-    }
-  ))
+  const sources = files.map(file => ({
+    sources: [{
+      src: path + file,
+      type: 'video/' + parseExtension(file)
+    }]
+  }))
 
   return sources
 }
