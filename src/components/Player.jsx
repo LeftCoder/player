@@ -14,7 +14,7 @@ const Player = ({playlist}) => {
   };
 
   const start = (player, playlist) => {
-    player.playlist(playlist);
+    player.playlist(playlist)
     player.playlist.autoadvance(0)
     player.playlist.repeat(true)
     
@@ -53,4 +53,4 @@ const Player = ({playlist}) => {
   );
 }
 
-export default Player;
+export default Player

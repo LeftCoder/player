@@ -24,4 +24,4 @@ const App = ({files}) => {
   );
 }
 
-export default App;
+export default App
